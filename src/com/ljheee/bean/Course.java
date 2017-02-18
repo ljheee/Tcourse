@@ -9,7 +9,7 @@ public class Course {
 	public String name;
 	
 	/*课时*/
-	public int courseHour; //(endWeek-beginWeek)*timeOfWeek
+	public String courseHour; //(endWeek-beginWeek)*timeOfWeek
 	
 	/*开始周*/
 	public int beginWeek;
@@ -20,4 +20,10 @@ public class Course {
 	/*每周次数*/
 	public int timeOfWeek;
 
+	@Override
+	public String toString() {
+		return "Course [name=" + name + ", courseHour=" + courseHour + "]";
+	}
+
+	
 }

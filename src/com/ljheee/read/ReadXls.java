@@ -2,7 +2,10 @@ package com.ljheee.read;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import com.ljheee.bean.Course;
@@ -36,23 +39,53 @@ public class ReadXls {
 	}
 	
 	Teacher teacher = null;
-    Set<Major> teachMajors = null;
+	List<Major> teachMajors = null;
     Course course = null;
+    Major major = null;
     
-	public Set<Teacher> readXls(){
-		Set<Teacher> tSet = new HashSet<>();
+	public List<Teacher> readXls(){
+		List<Teacher> tSet = new ArrayList<>();
 		
-		for (int i = 1; i < rows; i++) {
+		for (int i = 1; i < rows; i++) {//从第一行
+	        
+			Cell[] rowCells = sheet.getRow(i);
+//			System.out.println(rowCells[0].getContents());//课程名
+//			System.out.println(rowCells[1].getContents());//年级
+//			System.out.println(rowCells[2].getContents());//专业名
+//			System.out.println(rowCells[3].getContents());//人数
+//			System.out.println(rowCells[4].getContents());//分组
 			
+	        teachMajors = new ArrayList<>();
+			course = new Course();
+			major = new Major();
 			
+			course.name = rowCells[0].getContents().trim();
+			major.level = rowCells[1].getContents().trim();
+			major.name = rowCells[2].getContents().trim();
+			major.numStudent = rowCells[3].getContents().trim();
+			major.group = rowCells[4].getContents().trim();
+			course.courseHour = rowCells[5].getContents().trim();
+			String tName = rowCells[6].getContents().trim();
+			major.course = course;
 			
-			
+			Teacher t = null ;
+			if(isContain(tSet ,tName ,t)){//如果已包含
+				t.getTeachMajors().add(major);
+			}else{
+				teachMajors.add(major);
+				teacher = new Teacher(tName, teachMajors);
+				tSet.add(teacher);
+			}
 		}
-		
-		
 		
 		return tSet;
 	}
+	
+	
+	/**
+	 * 获取教师集合
+	 * @return
+	 */
 	public Set<String> getTeachers(){
 		Set<String> set = new HashSet<>();
 		
@@ -75,9 +108,17 @@ public class ReadXls {
 		return set;
 	}
 	
-	
-	
-	
+	public boolean isContain(List<Teacher> list,String name,Teacher t){
+		
+		Iterator<Teacher> it = list.iterator();
+		for (int i = 0; i < list.size(); i++) {
+			if(list.get(i).getName().equals(name)){
+				t = list.get(i);
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	/**
 	 * 关闭工作簿

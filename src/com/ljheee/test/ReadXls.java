@@ -56,14 +56,14 @@ public class ReadXls {
 			
 			int col = 0;
 			course.name = sheet.getCell(i, col).getContents();
-			major.level = Integer.parseInt(sheet.getCell(i, ++col).getContents());
+			major.level = sheet.getCell(i, ++col).getContents();
 			major.name = sheet.getCell(i, ++col).getContents();
-			major.numStudent = Integer.parseInt(sheet.getCell(i, ++col).getContents());
+			major.numStudent = sheet.getCell(i, ++col).getContents();
 			major.group = sheet.getCell(i, ++col).getContents();
-			course.courseHour = Integer.parseInt(sheet.getCell(i, ++col).getContents());
+			course.courseHour = sheet.getCell(i, ++col).getContents();
 			
 			teachMajors.add(major);
-			teacher = new Teacher(teacherCells[i].getContents(), teachMajors);
+//			teacher = new Teacher(teacherCells[i].getContents(), teachMajors);
 			tSet.add(teacher);
 		}
         
