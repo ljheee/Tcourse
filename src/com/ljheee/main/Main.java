@@ -21,8 +21,6 @@ public class Main {
 		}
 		
 		
-		
-		
 		readXls.close();
 	}
 }

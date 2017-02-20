@@ -16,7 +16,9 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
-
+/**
+ *读取xls文件
+ */
 public class ReadXls {
 	
 	File xlsFile;
@@ -49,11 +51,6 @@ public class ReadXls {
 		for (int i = 1; i < rows; i++) {//从第一行
 	        
 			Cell[] rowCells = sheet.getRow(i);
-//			System.out.println(rowCells[0].getContents());//课程名
-//			System.out.println(rowCells[1].getContents());//年级
-//			System.out.println(rowCells[2].getContents());//专业名
-//			System.out.println(rowCells[3].getContents());//人数
-//			System.out.println(rowCells[4].getContents());//分组
 			
 	        teachMajors = new ArrayList<>();
 			course = new Course();
