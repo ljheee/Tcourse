@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -16,6 +15,8 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+
+
 /**
  *读取xls文件
  */
@@ -45,6 +46,10 @@ public class ReadXls {
     Course course = null;
     Major major = null;
     
+    /**
+     * 读取所有教师教学信息
+     * @return
+     */
 	public List<Teacher> readXls(){
 		List<Teacher> tSet = new ArrayList<>();
 		
@@ -53,6 +58,7 @@ public class ReadXls {
 			Cell[] rowCells = sheet.getRow(i);
 			
 	        teachMajors = new ArrayList<>();
+	        teacher = new Teacher();
 			course = new Course();
 			major = new Major();
 			
@@ -62,19 +68,14 @@ public class ReadXls {
 			major.numStudent = rowCells[3].getContents().trim();
 			major.group = rowCells[4].getContents().trim();
 			course.courseHour = rowCells[5].getContents().trim();
-			String tName = rowCells[6].getContents().trim();
+			teacher.name = rowCells[6].getContents().trim();
 			major.course = course;
 			
-			Teacher t = null ;
-			if(isContain(tSet ,tName ,t)){//如果已包含
-				t.getTeachMajors().add(major);
-			}else{
-				teachMajors.add(major);
-				teacher = new Teacher(tName, teachMajors);
+			teacher.teachMajor = major;
+			if(teacher.name!=null&& !teacher.name.equals("")){
 				tSet.add(teacher);
 			}
 		}
-		
 		return tSet;
 	}
 	
@@ -105,17 +106,40 @@ public class ReadXls {
 		return set;
 	}
 	
-	public boolean isContain(List<Teacher> list,String name,Teacher t){
+	/**
+	 * 获取教师实验课程
+	 * @param name
+	 * @return
+	 */
+	public List<Major> getTeacherTeachesByName(String name){
+		List<Major> list = new ArrayList<>();
 		
-		Iterator<Teacher> it = list.iterator();
-		for (int i = 0; i < list.size(); i++) {
-			if(list.get(i).getName().equals(name)){
-				t = list.get(i);
-				return true;
+		List<Teacher> tList = readXls();
+		for (int i = 0; i < tList.size(); i++) {
+			if(tList.get(i).name.equals(name)){
+				list.add(tList.get(i).teachMajor);
 			}
 		}
-		return false;
+		return list;
 	}
+	
+	/**
+	 * 读取指定实验老师-实验课程信息
+	 * @param majors
+	 * @return
+	 */
+	public List<String> getMajorsInfo(List<Major> majors){
+		List<String> result = new ArrayList<>();
+		
+		for (int i = 0; i < majors.size(); i++) {
+			Major major = majors.get(i);
+			result.add(major.level+major.name+major.numStudent);
+		}
+		return result;
+	}
+	
+	
+	
 	
 	/**
 	 * 关闭工作簿

@@ -13,13 +13,24 @@ public class Main {
 		
 		
 		ReadXls readXls = new ReadXls("abc.xls");
-		List<Teacher> set = readXls.readXls();
-		Iterator<Teacher> it = set.iterator();
-
-		while(it.hasNext()){
-			System.out.println(it.next());
-		}
+//		List<Teacher> set = readXls.readXls();
+//		Iterator<Teacher> it = set.iterator();
+//
+//		while(it.hasNext()){
+//			System.out.println(it.next());
+//		}
 		
+		
+		List majors = readXls.getTeacherTeachesByName("辛动军");
+//		for (int i = 0; i < list.size(); i++) {
+//			System.out.println(list.get(i));
+//		}
+		
+		
+		List list = readXls.getMajorsInfo(majors);
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i));
+		}
 		
 		readXls.close();
 	}
