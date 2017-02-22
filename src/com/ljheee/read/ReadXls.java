@@ -128,8 +128,8 @@ public class ReadXls {
 	 * @param majors
 	 * @return
 	 */
-	public List<String> getMajorsInfo(List<Major> majors){
-		List<String> result = new ArrayList<>();
+	public Set<String> getMajorsInfo(List<Major> majors){
+		Set<String> result = new HashSet<>();
 		
 		for (int i = 0; i < majors.size(); i++) {
 			Major major = majors.get(i);
@@ -139,7 +139,20 @@ public class ReadXls {
 	}
 	
 	
-	
+	public List<String> getGroup(String teacherName, String majorName){
+		List<String> list = new ArrayList<>();
+		
+		List<Major> majors = getTeacherTeachesByName(teacherName);
+		for (int i = 0; i < majors.size(); i++) {
+			if(majors.get(i).name.equals(majorName)){
+				list.add(majors.get(i).group);
+			}
+		}
+		
+		
+		return list;
+		
+	}
 	
 	/**
 	 * 关闭工作簿
