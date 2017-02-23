@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.ljheee.bean.Major;
-import com.ljheee.bean.Teacher;
 import com.ljheee.read.ReadXls;
 
 public class Main {
@@ -24,9 +23,9 @@ public class Main {
 		
 		
 		List<Major> majors = readXls.getTeacherTeachesByName("辛动军");
-//		for (int i = 0; i < list.size(); i++) {
-//			System.out.println(list.get(i));
-//		}
+		for (int i = 0; i < majors.size(); i++) {
+			System.out.println(majors.get(i));
+		}
 		
 		
 		Set<String> set = readXls.getMajorsInfo(majors);
@@ -34,6 +33,12 @@ public class Main {
 		while(it.hasNext()){
 			System.out.println(it.next());
 		}
+		
+		List<String> groups = readXls.getGroups("辛动军", majors.get(0).name);
+		for (int i = 0; i < groups.size(); i++) {
+			System.out.println(groups.get(i));
+		}
+		
 		
 		readXls.close();
 	}

@@ -22,7 +22,7 @@ public class Major {
 
 	@Override
 	public String toString() {
-		return "Major [name=" + name + ", level=" + level + ", numStudent=" + numStudent + ", group=" + group
-				+ ", course=" + course + "]";
+		return "Major[专业=" + name + ", 年级=" + level + ", 人数=" + numStudent + ", 分组=" + group
+				+ ", 实验课程=" + course + "]";
 	}
 }

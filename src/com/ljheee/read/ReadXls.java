@@ -23,6 +23,7 @@ import jxl.read.biff.BiffException;
 public class ReadXls {
 	
 	File xlsFile;
+	
 
 	Workbook wb = null;
 	Sheet sheet = null;
@@ -133,13 +134,13 @@ public class ReadXls {
 		
 		for (int i = 0; i < majors.size(); i++) {
 			Major major = majors.get(i);
-			result.add(major.level+major.name+major.numStudent);
+			result.add(major.level+major.name+major.numStudent+"——"+major.group);
 		}
 		return result;
 	}
 	
 	
-	public List<String> getGroup(String teacherName, String majorName){
+	public List<String> getGroups(String teacherName, String majorName){
 		List<String> list = new ArrayList<>();
 		
 		List<Major> majors = getTeacherTeachesByName(teacherName);
@@ -151,7 +152,6 @@ public class ReadXls {
 		
 		
 		return list;
-		
 	}
 	
 	/**
