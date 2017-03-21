@@ -1,11 +1,25 @@
+Warning:  Cannot read name ranges for Print_Area - setting to empty
+
+
 jxl.read.biff.BiffException: The input file was not found
 解决方法：新建excel文件，手动复制原文件内容至新文件。然后删除原文件，并将新文件的文件改成原文件的文件名。然后用jxl读取成功。
 
 
-Warning:  Cannot read name ranges for Print_Area - setting to empty
+
 
 
 这个错误不是一开始就有的，之前只是报内存溢出错误，我一修改jvm的参数，它才出现这个错误，所以绝对不是代码问题！
 而且后面验证这个内存溢出问题不是因为数据量大的问题，而是因为excel中运用了格式什么的原因，因为我把除了头部分
 的数据外全部copy到另外一个excel表中就没有了错误！
+
+2、java 读取excel 文件 Unable to recognize OLE stream 错误
+jxl.read.biff.BiffException: Unable to recognize OLE stream
+    at jxl.read.biff.CompoundFile.<init>(CompoundFile.java:116)
+    at jxl.read.biff.File.<init>(File.java:127)
+    at jxl.Workbook.getWorkbook(Workbook.java:268)
+    at jxl.Workbook.getWorkbook(Workbook.java:253)
+    at test1.main(test1.java:25)
+
+原因：不支出读取 excel 2007 文件(*.xlsx)。只支持 excel 2003 (*.xls)。
+
 

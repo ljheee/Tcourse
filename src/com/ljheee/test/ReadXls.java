@@ -38,6 +38,7 @@ public class ReadXls {
         for (int i = 0; i < tableTitles.length; i++) {
         	if(tableTitles[i].getContents().equals("实验老师")){
         		colOfTeacher = i;
+        		
         	}
 		}
         
