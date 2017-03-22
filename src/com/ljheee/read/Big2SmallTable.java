@@ -15,19 +15,20 @@ import jxl.read.biff.BiffException;
 
 public class Big2SmallTable {
 	
-	File planFile;
+	File planFile;//教学计划-文件
 	Workbook wb = null;
 	Sheet sheet = null;
-	int rows = 0;
-	int cols = 0;
+	int rows = 0;//教学计划-总行数
+	int cols = 0;//总列数
 	
-	int rowOfTitle;
-	int colOfTeacher;
+	int rowOfTitle;//标题行-索引
+	int colOfTeacher;//教师姓名-列索引
 	
-	int colOfWeekday;
-	int colOfClassci;
-	int colOfIsSingle;
-	int colOfBeginEndWeek;
+	int colOfWeekday;//星期几
+	int colOfClassci;//节次
+	int colOfIsSingle;//单周
+	int colOfBeginEndWeek;//起始周
+	
 
 	public Big2SmallTable(File f) {
 		this.planFile = f;
@@ -43,12 +44,11 @@ public class Big2SmallTable {
 	
 	
 	/**
-	 * 获取指定教师，所有所在行index
+	 * 获取指定教师TheoryTeacher，所有理论课表
 	 * @param teacherName
 	 * @return
 	 */
-	public List<Integer> getRowIndexs(String teacherName){
-		List<Integer> list = new ArrayList<>();
+	public TheoryTeacher getTheoryTeacher(String teacherName){
 		getIndex();
 		
 		TheoryTeacher tt = new TheoryTeacher(teacherName);
@@ -56,7 +56,6 @@ public class Big2SmallTable {
 		for (int i = 0; i < rows; i++) {
 			//sheet.getCell(col,row)
 			if(teacherName.equals(sheet.getCell(colOfTeacher,i).getContents().trim())){
-				list.add(i);
 				Cell[] oneRow = sheet.getRow(i);
 				String[] strs = oneRow[colOfBeginEndWeek].getContents().trim().split("-");
 				int begin = Integer.parseInt(strs[0]);
@@ -67,20 +66,18 @@ public class Big2SmallTable {
 					isSingle = false;
 				}
 				
-				int dayOfWeek = getDayOfWeek(oneRow[colOfIsSingle].getContents().trim());
-				int jieCi = getJieCi(oneRow[colOfIsSingle].getContents().trim());
+				int dayOfWeek = getDayOfWeek(oneRow[colOfWeekday].getContents().trim());
+				int jieCi = getJieCi(oneRow[colOfClassci].getContents().trim());
 				
 				
 				for (int j = begin; j <= end; j++) {
-					tt.list.get(j).week[jieCi][dayOfWeek] = 1;//标记为有理论课
+					//Todo;list索引0--19
+					tt.list.get(j-1).week[jieCi][dayOfWeek] = 1;//标记为有理论课
 				}
-				
 				
 			}
 		}
-		
-		System.out.println("over");
-		return list;
+		return tt;
 	}
 
 
@@ -108,6 +105,7 @@ public class Big2SmallTable {
 			result = 4;
 			break;
 		default:
+			System.out.println("default");
 			break;
 		}
 		return result;

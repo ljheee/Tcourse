@@ -1,13 +1,10 @@
 package com.ljheee.main;
 
 import java.io.File;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
-import com.ljheee.bean.Major;
+import com.ljheee.bean.TheoryTeacher;
+import com.ljheee.bean.WeekClass;
 import com.ljheee.read.Big2SmallTable;
-import com.ljheee.read.ReadXls;
 
 public class Main {
 
@@ -45,11 +42,17 @@ public class Main {
 		readXls.close();
 */		
 		Big2SmallTable big2SmallTable = new Big2SmallTable(new File("D:\\用户目录\\我的文档\\▲实验课排课系统\\new.xls"));
-		List<Integer> list = big2SmallTable.getRowIndexs("辛动军");
-		for (int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i));
-		}
+		TheoryTeacher tt = big2SmallTable.getTheoryTeacher("辛动军");
 		
+		
+		
+		WeekClass wc1 = tt.getTheoryTable(8);
+		for (int i = 0; i < wc1.week.length; i++) {
+			for (int j = 0; j < wc1.week[0].length; j++) {
+				System.out.print(wc1.week[i][j]+" ");
+			}
+			System.out.println();
+		}
 		
 	}
 }

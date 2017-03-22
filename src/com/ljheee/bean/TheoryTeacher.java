@@ -3,6 +3,11 @@ package com.ljheee.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 理论课任课教师
+ * @author ljheee
+ *
+ */
 public class TheoryTeacher {
 
 	/*教师名*/
@@ -30,7 +35,7 @@ public class TheoryTeacher {
 	 */
 	public WeekClass getTheoryTable(int i){
 		
-		return list.get(i+1);
+		return list.get(i-1);
 	}
 	
 }
