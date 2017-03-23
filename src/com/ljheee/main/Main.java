@@ -2,9 +2,11 @@ package com.ljheee.main;
 
 import java.io.File;
 
+import com.ljheee.bean.TheoryMajor;
 import com.ljheee.bean.TheoryTeacher;
 import com.ljheee.bean.WeekClass;
 import com.ljheee.read.Big2SmallTable;
+import com.ljheee.util.MatrixUtil;
 
 public class Main {
 
@@ -43,17 +45,19 @@ public class Main {
 */		
 		Big2SmallTable big2SmallTable = new Big2SmallTable(new File("D:\\用户目录\\我的文档\\▲实验课排课系统\\new.xls"));
 		big2SmallTable.init();
-		TheoryTeacher tt = big2SmallTable.getTheoryTeacher("汪斌");
+		TheoryTeacher tt = big2SmallTable.getTheoryTeacher("黄辉");
+		TheoryMajor tm = big2SmallTable.getTheoryMajor("2014级软件工程");
+		MatrixUtil.calculate(1, 20, tt, tm);
 		
-		
-		
-		WeekClass wc1 = tt.getTheoryTable(11);
+//		WeekClass wc1 = tt.getTheoryTable(11);
+		WeekClass wc1 = tm.getTheoryTable(4);
 		for (int i = 0; i < wc1.week.length; i++) {
 			for (int j = 0; j < wc1.week[0].length; j++) {
 				System.out.print(wc1.week[i][j]+" ");
 			}
 			System.out.println();
 		}
+		
 		
 	}
 }
