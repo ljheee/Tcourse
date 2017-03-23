@@ -2,11 +2,8 @@ package com.ljheee.read;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.ljheee.bean.TheoryTeacher;
-import com.ljheee.bean.WeekClass;
 
 import jxl.Cell;
 import jxl.Sheet;
@@ -15,9 +12,9 @@ import jxl.read.biff.BiffException;
 
 public class Big2SmallTable {
 	
-	File planFile;//教学计划-文件
 	Workbook wb = null;
 	Sheet sheet = null;
+	File planFile;//教学计划-文件
 	int rows = 0;//教学计划-总行数
 	int cols = 0;//总列数
 	
@@ -42,6 +39,20 @@ public class Big2SmallTable {
 		}
 	}
 	
+	/**
+	 * 获取[教学计划表]教师名列index
+	 */
+	public void init() {
+		
+		Cell cell = sheet.findCell("教师姓名");
+		rowOfTitle = cell.getRow();
+		colOfTeacher = cell.getColumn();
+		
+		colOfWeekday = sheet.findCell("星期几").getColumn();
+		colOfClassci = sheet.findCell("节次").getColumn();
+		colOfIsSingle = sheet.findCell("单双周").getColumn();
+		colOfBeginEndWeek = sheet.findCell("起止周").getColumn();
+	}
 	
 	/**
 	 * 获取指定教师TheoryTeacher，所有理论课表
@@ -49,7 +60,6 @@ public class Big2SmallTable {
 	 * @return
 	 */
 	public TheoryTeacher getTheoryTeacher(String teacherName){
-		getIndex();
 		
 		TheoryTeacher tt = new TheoryTeacher(teacherName);
 		
@@ -60,24 +70,60 @@ public class Big2SmallTable {
 				String[] strs = oneRow[colOfBeginEndWeek].getContents().trim().split("-");
 				int begin = Integer.parseInt(strs[0]);
 				int end = Integer.parseInt(strs[1]);
-				boolean isSingle;
 				
-				if(oneRow[colOfIsSingle].getContents().trim().equals("")){
-					isSingle = false;
-				}
-				
+				int singleDouble = getSingleDouble(oneRow[colOfIsSingle].getContents().trim());
 				int dayOfWeek = getDayOfWeek(oneRow[colOfWeekday].getContents().trim());
 				int jieCi = getJieCi(oneRow[colOfClassci].getContents().trim());
 				
 				
 				for (int j = begin; j <= end; j++) {
-					//Todo;list索引0--19
-					tt.list.get(j-1).week[jieCi][dayOfWeek] = 1;//标记为有理论课
+					
+					switch (singleDouble) {
+					case 0:
+						//Todo;list索引0--19
+						tt.list.get(j-1).week[jieCi][dayOfWeek] = 1;//标记为有理论课
+						break;
+					case 1:
+						if(j%2!=0){
+							tt.list.get(j-1).week[jieCi][dayOfWeek] = 1;//标记为有理论课
+						}
+						break;
+					case 2:
+						if(j%2==0){
+							tt.list.get(j-1).week[jieCi][dayOfWeek] = 1;//标记为有理论课
+						}
+						break;
+					}
 				}
-				
 			}
 		}
+		
 		return tt;
+	}
+
+
+	/**
+	 * 根据单双周，返回int
+	 * @param arg
+	 * @return
+	 */
+	private int getSingleDouble(String arg) {
+		int result = 0;
+		switch (arg) {
+		case "":
+			result = 0;//不分单双周
+			break;
+		case "单":
+			result = 1;//单周
+			break;
+		case "双":
+			result = 2;//双周
+			break;
+		default:
+			System.out.println("getSingleDouble=default");
+			break;
+		}
+		return result;
 	}
 
 
@@ -105,7 +151,7 @@ public class Big2SmallTable {
 			result = 4;
 			break;
 		default:
-			System.out.println("default");
+			System.out.println("getJieCi=default");
 			break;
 		}
 		return result;
@@ -148,20 +194,7 @@ public class Big2SmallTable {
 	}
 
 
-	/**
-	 * 获取[教学计划表]教师名列index
-	 */
-	private void getIndex() {
-		
-		Cell cell = sheet.findCell("教师姓名");
-		rowOfTitle = cell.getRow();
-		colOfTeacher = cell.getColumn();
-		
-		colOfWeekday = sheet.findCell("星期几").getColumn();
-		colOfClassci = sheet.findCell("节次").getColumn();
-		colOfIsSingle = sheet.findCell("单双周").getColumn();
-		colOfBeginEndWeek = sheet.findCell("起止周").getColumn();
-	}
+	
 	
 	
 	

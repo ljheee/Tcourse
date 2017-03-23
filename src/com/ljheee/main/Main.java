@@ -42,11 +42,12 @@ public class Main {
 		readXls.close();
 */		
 		Big2SmallTable big2SmallTable = new Big2SmallTable(new File("D:\\用户目录\\我的文档\\▲实验课排课系统\\new.xls"));
-		TheoryTeacher tt = big2SmallTable.getTheoryTeacher("辛动军");
+		big2SmallTable.init();
+		TheoryTeacher tt = big2SmallTable.getTheoryTeacher("汪斌");
 		
 		
 		
-		WeekClass wc1 = tt.getTheoryTable(8);
+		WeekClass wc1 = tt.getTheoryTable(11);
 		for (int i = 0; i < wc1.week.length; i++) {
 			for (int j = 0; j < wc1.week[0].length; j++) {
 				System.out.print(wc1.week[i][j]+" ");
