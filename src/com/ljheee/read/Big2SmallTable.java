@@ -154,6 +154,14 @@ public class Big2SmallTable {
 	}
 	
 	
+	/**
+	 * 关闭工作簿
+	 */
+	public void close() {
+		if(wb != null){
+			wb.close();
+		}
+	}
 	
 
 }

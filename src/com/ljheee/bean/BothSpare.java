@@ -2,45 +2,30 @@ package com.ljheee.bean;
 
 import java.util.ArrayList;
 import java.util.List;
-
 /**
- * 理论课-专业
  * 1-20周
+ * 教师-学生空课时间
  * @author ljheee
  *
  */
-public class TheoryMajor {
+public class BothSpare {
 	
-	/*年级*/
-	int level;
-	
-	/*专业名*/
-	String name;
-	
-	/*年级+专业名*/
-	String levelAndName;
-	
-	/*本专业，1-20周理论课课表*/
+	/*1-20周课表*/
 	public List<WeekClass> list = new ArrayList<>(20);
 	
-	public TheoryMajor() {
-	}
-
-	public TheoryMajor(String levelAndName) {
-		this.levelAndName = levelAndName;
-		
+	public BothSpare(){
 		for (int i = 0; i < 20; i++) {
 			list.add(new WeekClass());
 		}
 	}
 	
 	/**
-	 * 获取指定周-理论课表
+	 * 获取指定周-空课时间
 	 * @param i
 	 * @return
 	 */
 	public WeekClass getTheoryTable(int i){
 		return list.get(i-1);
 	}
-	
+
 }

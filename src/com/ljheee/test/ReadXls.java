@@ -61,7 +61,7 @@ public class ReadXls {
 			major.name = sheet.getCell(i, ++col).getContents();
 			major.numStudent = sheet.getCell(i, ++col).getContents();
 			major.group = sheet.getCell(i, ++col).getContents();
-			course.courseHour = sheet.getCell(i, ++col).getContents();
+			course.courseHour = Integer.parseInt(sheet.getCell(i, ++col).getContents());
 			
 			teachMajors.add(major);
 //			teacher = new Teacher(teacherCells[i].getContents(), teachMajors);

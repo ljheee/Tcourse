@@ -9,7 +9,7 @@ public class Course {
 	public String name;
 	
 	/*课时*/
-	public String courseHour; //(endWeek-beginWeek)*timeOfWeek
+	public int courseHour; //=(endWeek-beginWeek)*timeOfWeek
 	
 	/*开始周*/
 	public int beginWeek;

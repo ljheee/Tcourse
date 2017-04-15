@@ -1,5 +1,9 @@
 package com.ljheee.util;
-
+/**
+ * 字符串工具类
+ * @author ljheee
+ *
+ */
 public class StringUtil {
 	
 	/**
@@ -94,8 +98,8 @@ public class StringUtil {
 
 	/**
 	 * 根据二维矩阵x,y，返回此课=星期几   第几-几节
-	 * @param x
-	 * @param y
+	 * @param x 课表横排，取值0-4[对应5个上课时间段]
+	 * @param y 课表竖排，取值0-6[对应一周7天]
 	 * @return
 	 */
 	public static String[] getWeekAndJieCi(int x,int y) {
@@ -110,4 +114,12 @@ public class StringUtil {
 	}
 	
 	
+	public static String array2String(String[] obj){
+		String result ="";
+		for (String object : obj) {
+			result+=object.toString();
+		}
+		return result;
+		
+	}
 }

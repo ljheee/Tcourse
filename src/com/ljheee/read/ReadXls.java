@@ -17,18 +17,18 @@ import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
 /**
- * 读取xls文件
+ * 读取（学院-实验课计划）xls文件
  */
 public class ReadXls {
 
-	File xlsFile;
+	File xlsFile;//学院-实验课计划
 
 	Workbook wb = null;
 	Sheet sheet = null;
 	int rows = 0;
 	int cols = 0;
 
-	int colOfcourse, colOflevel, colOfmajorName, colOfnumStudent, colOfgroup, courseHour, colOfTeacher;
+	int rowOfTitle,colOfcourse, colOflevel, colOfmajorName, colOfnumStudent, colOfgroup, courseHour, colOfTeacher,colOfWeek;
 
 	public ReadXls(File f) {
 		this.xlsFile = f;
@@ -47,16 +47,16 @@ public class ReadXls {
 	Course course = null;
 	Major major = null;
 
-	/**
-	 * 读取所有教师教学信息
-	 * 
-	 * @return
-	 */
-	public List<Teacher> readXls() {
-		List<Teacher> tSet = new ArrayList<>();
-		Cell[] tableTitles = sheet.getRow(0);
-		// 匹配表头
-		for (int i = 0; i < tableTitles.length; i++) {
+	
+	public void init(){
+		
+		Cell cell = sheet.findCell("实验老师");
+		rowOfTitle = cell.getRow();
+		colOfTeacher = cell.getColumn();
+		
+		Cell[] tableTitles = sheet.getRow(rowOfTitle);
+		
+		for (int i = 0; i < tableTitles.length; i++) {// 匹配表头
 			switch (tableTitles[i].getContents().trim()) {
 			case "课程名称":
 				colOfcourse = i;
@@ -76,14 +76,22 @@ public class ReadXls {
 			case "实验学时":
 				courseHour = i;
 				break;
-			case "实验老师":
-				colOfTeacher = i;
+			case "实验周":
+				colOfWeek = i;
 				break;
 			default:
 				break;
 			}
 		}
-
+	}
+	
+	/**
+	 * 读取所有教师教学信息
+	 * @return
+	 */
+	public List<Teacher> readXls() {
+		List<Teacher> tSet = new ArrayList<>();
+		
 		for (int i = 1; i < rows; i++) {// 从第一行
 
 			Cell[] rowCells = sheet.getRow(i);
@@ -94,11 +102,18 @@ public class ReadXls {
 			major = new Major();
 
 			course.name = rowCells[colOfcourse].getContents().trim();
+			
+			int[] beginEnd = getBeginEnd(rowCells[colOfWeek].getContents().trim());
+			course.beginWeek = beginEnd[0];
+			course.endWeek = beginEnd[1];
+			course.courseHour = Integer.parseInt(rowCells[courseHour].getContents().trim());
+			course.timeOfWeek = course.courseHour/((course.endWeek-course.beginWeek+1)*2);
+					
 			major.level = rowCells[colOflevel].getContents().trim();
 			major.name = rowCells[colOfmajorName].getContents().trim();
 			major.numStudent = rowCells[colOfnumStudent].getContents().trim();
 			major.group = rowCells[colOfgroup].getContents().trim();
-			course.courseHour = rowCells[courseHour].getContents().trim();
+			
 			teacher.name = rowCells[colOfTeacher].getContents().trim();
 			major.course = course;
 
@@ -110,21 +125,35 @@ public class ReadXls {
 		return tSet;
 	}
 
+	//Todo...........
+	private int[] getBeginEnd(String arg) {
+		int[] result = new int[2];
+		
+		String ss[] = arg.split(",");
+		System.out.println(ss.length);
+		if(ss.length==1){
+			String[] strs = arg.split("-");
+			result[0] = Integer.parseInt(strs[0]);
+			try {
+				result[1] = Integer.parseInt(strs[strs.length-1]);
+			} catch (NumberFormatException e) {
+				result[1] = Integer.parseInt(strs[strs.length-1].substring(0, 2));
+			}
+		}else{
+			result[0] = Integer.parseInt(ss[0].split("-")[0]);
+			result[1] = Integer.parseInt(ss[1].split("-")[1].substring(0, 2));
+		}
+				
+		return result;
+	}
+
+	
 	/**
 	 * 获取教师集合
-	 * 
 	 * @return
 	 */
 	public Set<String> getTeachers() {
 		Set<String> set = new HashSet<>();
-
-		Cell[] tableTitles = sheet.getRow(0);
-		int colOfTeacher = 0;
-		for (int i = 0; i < tableTitles.length; i++) {
-			if (tableTitles[i].getContents().equals("实验老师")) {
-				colOfTeacher = i;
-			}
-		}
 
 		Cell[] teacherCells = sheet.getColumn(colOfTeacher);
 		for (int i = 1; i < teacherCells.length; i++) {
@@ -180,7 +209,6 @@ public class ReadXls {
 				list.add(majors.get(i).group);
 			}
 		}
-
 		return list;
 	}
 
@@ -188,7 +216,9 @@ public class ReadXls {
 	 * 关闭工作簿
 	 */
 	public void close() {
-		wb.close();
+		if(wb != null){
+			wb.close();
+		}
 	}
 
 }

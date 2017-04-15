@@ -15,7 +15,7 @@ public class TheoryTeacher {
 	public String name;
 	
 	/*本任课教师，1-20周理论课课表*/
-	public List<WeekClass> list = new ArrayList<>();
+	public List<WeekClass> list = new ArrayList<>(20);
 	
 	
 	public TheoryTeacher() {
