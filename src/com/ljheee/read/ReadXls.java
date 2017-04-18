@@ -35,8 +35,6 @@ public class ReadXls {
 		try {
 			wb = Workbook.getWorkbook(xlsFile);
 			sheet = wb.getSheet(0);
-			rows = sheet.getRows();
-			cols = sheet.getColumns();
 		} catch (BiffException | IOException e) {
 			e.printStackTrace();
 		}
@@ -47,8 +45,13 @@ public class ReadXls {
 	Course course = null;
 	Major major = null;
 
-	
+	/**
+	 * 初始化[获取表头-索引列下表]
+	 */
 	public void init(){
+		
+		rows = sheet.getRows();
+		cols = sheet.getColumns();
 		
 		Cell cell = sheet.findCell("实验老师");
 		rowOfTitle = cell.getRow();
@@ -102,11 +105,22 @@ public class ReadXls {
 			major = new Major();
 
 			course.name = rowCells[colOfcourse].getContents().trim();
+			if("".equals(course.name)){
+				continue;//rows > 实际内容行，最下面有空行
+			}
 			
 			int[] beginEnd = getBeginEnd(rowCells[colOfWeek].getContents().trim());
 			course.beginWeek = beginEnd[0];
 			course.endWeek = beginEnd[1];
-			course.courseHour = Integer.parseInt(rowCells[courseHour].getContents().trim());
+			String temp = rowCells[courseHour].getContents().trim();
+			if(!"".equals(temp)){
+				try {
+					course.courseHour = Integer.parseInt(temp);
+				} catch (NumberFormatException e) {
+					course.courseHour = Integer.parseInt(temp.split("\\.")[0]);
+				}
+			}
+			
 			course.timeOfWeek = course.courseHour/((course.endWeek-course.beginWeek+1)*2);
 					
 			major.level = rowCells[colOflevel].getContents().trim();
@@ -130,7 +144,7 @@ public class ReadXls {
 		int[] result = new int[2];
 		
 		String ss[] = arg.split(",");
-		System.out.println(ss.length);
+		
 		if(ss.length==1){
 			String[] strs = arg.split("-");
 			result[0] = Integer.parseInt(strs[0]);
@@ -186,7 +200,6 @@ public class ReadXls {
 
 	/**
 	 * 读取指定实验老师-实验课程信息
-	 * 
 	 * @param majors
 	 * @return
 	 */
@@ -200,8 +213,14 @@ public class ReadXls {
 		return result;
 	}
 
-	public List<String> getGroups(String teacherName, String majorName) {
-		List<String> list = new ArrayList<>();
+	/**
+	 * 根据teacherName、majorName获取专业分组消息
+	 * @param teacherName
+	 * @param majorName
+	 * @return
+	 */
+	public Set<String> getGroups(String teacherName, String majorName) {
+		Set<String> list = new HashSet<>();
 
 		List<Major> majors = getTeacherTeachesByName(teacherName);
 		for (int i = 0; i < majors.size(); i++) {
@@ -211,6 +230,7 @@ public class ReadXls {
 		}
 		return list;
 	}
+	
 
 	/**
 	 * 关闭工作簿

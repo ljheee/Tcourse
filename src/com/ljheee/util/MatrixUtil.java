@@ -32,7 +32,6 @@ public class MatrixUtil {
 					}
 				}
 			}
-			
 		}
 		return result;
 	}

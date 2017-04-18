@@ -20,7 +20,8 @@ public class Main {
 	public static void main(String[] args) {
 		
 		
-		ReadXls readXls = new ReadXls(new File("17春专业实验实践课.xls"));
+//		ReadXls readXls = new ReadXls(new File("17春专业实验实践课.xls"));
+		ReadXls readXls = new ReadXls(new File("16秋计算机专业实验实践课.xls"));
 		readXls.init();
 		
 //		List<Teacher> set = readXls.readXls();
@@ -43,9 +44,10 @@ public class Main {
 			System.out.println(it.next());
 		}
 		
-		List<String> groups = readXls.getGroups("辛动军", majors.get(0).name);
-		for (int i = 0; i < groups.size(); i++) {
-			System.out.println(groups.get(i));
+		Set<String> groups = readXls.getGroups("辛动军", majors.get(0).name);
+		Iterator<String> iterator = groups.iterator();
+		while(iterator.hasNext()){
+			System.out.println(iterator.next());
 		}
 		
 		readXls.close();
@@ -70,7 +72,7 @@ public class Main {
 				
 			}
 		}
-		
+		big2SmallTable.close();
 		*/
 		
 		
