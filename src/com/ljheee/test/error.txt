@@ -22,4 +22,7 @@ jxl.read.biff.BiffException: Unable to recognize OLE stream
 
 原因：不支出读取 excel 2007 文件(*.xlsx)。只支持 excel 2003 (*.xls)。
 
+java.io.NotSerializableException: com.ljheee.bean.Teacher
 
+IOException while loading persisted sessions [java.io.StreamCorruptedException: invalid type code: 00]
+java.io.StreamCorruptedException: invalid type code: 00
