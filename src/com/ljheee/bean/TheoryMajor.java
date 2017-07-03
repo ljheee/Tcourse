@@ -36,7 +36,7 @@ public class TheoryMajor {
 	
 	/**
 	 * 获取指定周-理论课表
-	 * @param i
+	 * @param i [1-20周]
 	 * @return
 	 */
 	public WeekClass getTheoryTable(int i){

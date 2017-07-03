@@ -25,4 +25,6 @@ public class Major {
 		return "Major[专业=" + name + ", 年级=" + level + ", 人数=" + numStudent + ", 分组=" + group
 				+ ", 实验课程=" + course + "]";
 	}
+	
+	
 }

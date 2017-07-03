@@ -114,12 +114,34 @@ public class StringUtil {
 	}
 	
 	
+	
 	public static String array2String(String[] obj){
 		String result ="";
 		for (String object : obj) {
 			result+=object.toString();
 		}
 		return result;
-		
 	}
+	
+	static class RowCol{
+		public int row,col;
+	}
+	
+	/**
+	 * 由“星期二第7,8节”--->(row,col)
+	 * @param okTime
+	 * @return
+	 */
+	public static RowCol getRowCol(String okTime){
+		RowCol rowCol = new RowCol();
+		rowCol.col = getDayOfWeek(okTime.substring(0, 3)) + 1;//星期二
+		rowCol.row = getJieCi(okTime.substring(3)) + 1;//第7,8节
+		return rowCol;
+	}
+	
+	public static void main(String[] args) {
+		RowCol rc = getRowCol("星期三第7,8节");
+		System.out.println(rc.row+"===="+rc.col);
+	}
+	
 }

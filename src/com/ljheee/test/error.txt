@@ -26,3 +26,9 @@ java.io.NotSerializableException: com.ljheee.bean.Teacher
 
 IOException while loading persisted sessions [java.io.StreamCorruptedException: invalid type code: 00]
 java.io.StreamCorruptedException: invalid type code: 00
+
+
+
+jxl.read.biff.BiffException: Unable to recognize OLE stream
+
+
